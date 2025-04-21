@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pip-Boy 3000</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    .screen {
+      border: 3px solid #00ff00;
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 30px;
+      box-shadow: 0 0 20px #00ff00;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    p, ul {
+      font-size: 1.2em;
+      line-height: 1.6;
+    }
+
+    .terminal-line::before {
+      content: "> ";
+    }
+
+    .blink {
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .image-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 10px #00ff00;
+      filter: grayscale(100%) contrast(200%) brightness(150%);
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <h1>Pip-Boy 3000</h1>
+    <p class="terminal-line">Загрузка системы...</p>
+    <p class="terminal-line">Проверка статуса: [OK]</p>
+    <p class="terminal-line">Добро пожаловать, Выживший.</p>
+
+    <div class="image-container">
+      <img src="https://iplogger.co/1yEyV4.jpeg" alt="Pip-Boy Image">
+    </div>
+
+    <ul>
+      <li class="terminal-line">Состояние: Здоровье 100%</li>
+      <li class="terminal-line">Локация: Пустоши</li>
+      <li class="terminal-line">Радиация: 12 RAD</li>
+      <li class="terminal-line">Оружие: Лазерный пистолет</li>
+    </ul>
+
+    <p class="terminal-line">Введите команду: <span class="blink">█</span></p>
+  </div>
+</body>
+</html>
