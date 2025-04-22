@@ -1,41 +1,88 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Отправка геолокации</title>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("yzrvWokZipQeV4rk1"); // ТВОЙ PUBLIC KEY
-    })();
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-    function sendLocationByEmail() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Отправка геолокации на почту</h1>
+  <button id="sendLocationBtn">Отправить координаты</button>
+  <div class="status" id="statusMessage"></div>
+
+  <script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm';
+
+    emailjs.init("yzrvWokZipQeV4rk1"); // <- вставь сюда свой PUBLIC KEY
+
+    const button = document.getElementById("sendLocationBtn");
+    const statusMessage = document.getElementById("statusMessage");
+
+    button.addEventListener("click", () => {
+      statusMessage.textContent = "Запрос местоположения...";
+
+      if (!navigator.geolocation) {
+        statusMessage.textContent = "Геолокация не поддерживается этим браузером.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
           emailjs.send("service_xvob3q9", "template_z5bih6b", {
-            latitude: lat,
-            longitude: lon
-          }).then(function(response) {
-            alert("Координаты отправлены!");
-          }, function(error) {
-            alert("Ошибка отправки.");
+            latitude,
+            longitude
+          }).then(() => {
+            statusMessage.textContent = "Координаты успешно отправлены!";
+          }).catch((error) => {
             console.error(error);
+            statusMessage.textContent = "Ошибка при отправке.";
           });
-        });
-      } else {
-        alert("Геолокация не поддерживается.");
-      }
-    }
+        },
+        (error) => {
+          console.error(error);
+          statusMessage.textContent = "Не удалось получить координаты.";
+        }
+      );
+    });
   </script>
-</head>
-<body style="font-family: sans-serif; text-align: center; padding-top: 100px;">
-  <h1>Получить координаты</h1>
-  <button onclick="sendLocationByEmail()" style="font-size: 1.2em; padding: 10px 20px; cursor: pointer;">
-    Отправить координаты мне на почту
-  </button>
 </body>
 </html>
 
